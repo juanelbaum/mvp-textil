@@ -57,19 +57,19 @@ const features = [
 const HomePage = () => {
   return (
     <div className="flex flex-col gap-20 pb-16">
-      <section className="relative overflow-hidden rounded-3xl border border-[var(--border)] bg-gradient-to-br from-[var(--primary)]/10 via-[var(--background)] to-[var(--accent)]/30 px-6 py-16 sm:px-10 sm:py-24">
+      <section className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-primary/10 via-background to-accent/30 px-6 py-16 sm:px-10 sm:py-24">
         <Factory
-          className="pointer-events-none absolute -right-8 -top-8 h-48 w-48 text-[var(--primary)]/15 sm:h-64 sm:w-64"
+          className="pointer-events-none absolute -right-8 -top-8 h-48 w-48 text-primary/15 sm:h-64 sm:w-64"
           aria-hidden
         />
         <div className="relative mx-auto max-w-3xl text-center">
-          <p className="mb-4 text-sm font-medium uppercase tracking-wider text-[var(--primary)]">
+          <p className="mb-4 text-sm font-medium uppercase tracking-wider text-primary">
             TextilConnect
           </p>
-          <h1 className="text-balance text-4xl font-bold tracking-tight text-[var(--foreground)] sm:text-5xl md:text-6xl">
+          <h1 className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
             Conectamos fabricantes con talleres textiles
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg text-[var(--muted-foreground)] sm:text-xl">
+          <p className="mx-auto mt-6 max-w-2xl text-pretty text-lg text-muted-foreground sm:text-xl">
             Una plataforma para publicar órdenes de confección, encontrar el taller adecuado y hacer seguimiento de cada
             etapa de producción con transparencia y eficiencia.
           </p>
@@ -85,7 +85,7 @@ const HomePage = () => {
               href="/workshops"
               className={cn(
                 buttonVariants({ variant: 'outline', size: 'lg' }),
-                'w-full min-w-[200px] bg-[var(--background)]/80 backdrop-blur sm:w-auto'
+                'w-full min-w-[200px] bg-background/80 backdrop-blur sm:w-auto'
               )}
             >
               Explorar talleres
@@ -100,12 +100,12 @@ const HomePage = () => {
         </h2>
         <div className="grid gap-6 sm:grid-cols-3">
           {stats.map((item) => (
-            <Card key={item.label} className="border-[var(--border)] text-center shadow-sm">
+            <Card key={item.label} className="border-border text-center shadow-sm">
               <CardHeader className="pb-2">
-                <CardTitle className="text-4xl font-bold tracking-tight text-[var(--primary)] sm:text-5xl">
+                <CardTitle className="text-4xl font-bold tracking-tight text-primary sm:text-5xl">
                   {item.value}
                 </CardTitle>
-                <CardDescription className="text-base font-medium text-[var(--foreground)]">
+                <CardDescription className="text-base font-medium text-foreground">
                   {item.label}
                 </CardDescription>
               </CardHeader>
@@ -119,7 +119,7 @@ const HomePage = () => {
           <h2 id="features-heading" className="text-3xl font-bold tracking-tight sm:text-4xl">
             Todo lo que necesitás en un solo flujo
           </h2>
-          <p className="mt-3 text-[var(--muted-foreground)]">
+          <p className="mt-3 text-muted-foreground">
             Diseñado para fabricantes y talleres que quieren trabajar juntos sin fricción.
           </p>
         </div>
@@ -129,10 +129,10 @@ const HomePage = () => {
             return (
               <Card
                 key={feature.title}
-                className="group border-[var(--border)] transition-shadow hover:shadow-md"
+                className="group border-border transition-shadow hover:shadow-md"
               >
                 <CardHeader>
-                  <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-lg bg-[var(--primary)]/10 text-[var(--primary)]">
+                  <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary">
                     <Icon className="h-6 w-6" aria-hidden />
                   </div>
                   <CardTitle className="text-xl">{feature.title}</CardTitle>
@@ -141,7 +141,7 @@ const HomePage = () => {
                     href="/dashboard"
                     className={cn(
                       buttonVariants({ variant: 'ghost', size: 'sm' }),
-                      'group/btn mt-4 -ml-3 w-fit justify-start px-3 text-[var(--primary)]'
+                      'group/btn mt-4 -ml-3 w-fit justify-start px-3 text-primary'
                     )}
                   >
                     Ir al panel

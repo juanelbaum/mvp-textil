@@ -72,14 +72,14 @@ const MessagesPage = () => {
   };
 
   return (
-    <div className="flex h-[calc(100vh-8rem)] min-h-[420px] flex-col gap-0 overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--card)] md:flex-row">
+    <div className="flex h-[calc(100vh-8rem)] min-h-[420px] flex-col gap-0 overflow-hidden rounded-lg border border-border bg-card md:flex-row">
       <aside
         className={cn(
-          'flex w-full shrink-0 flex-col border-[var(--border)] md:w-80 md:border-r',
+          'flex w-full shrink-0 flex-col border-border md:w-80 md:border-r',
           mobileShowChat && 'hidden md:flex'
         )}
       >
-        <div className="border-b border-[var(--border)] px-4 py-3">
+        <div className="border-b border-border px-4 py-3">
           <h1 className="text-lg font-semibold tracking-tight">Mensajes</h1>
         </div>
         <ul className="flex-1 overflow-y-auto">
@@ -93,28 +93,28 @@ const MessagesPage = () => {
                   type="button"
                   onClick={() => handleSelectConversation(conv.id)}
                   className={cn(
-                    'flex w-full gap-3 border-b border-[var(--border)] px-4 py-3 text-left transition-colors hover:bg-[var(--accent)]/50',
-                    isSelected && 'bg-[var(--accent)]/40'
+                    'flex w-full gap-3 border-b border-border px-4 py-3 text-left transition-colors hover:bg-accent/50',
+                    isSelected && 'bg-accent/40'
                   )}
                 >
                   <Avatar fallback={name} size="md" className="shrink-0" />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-2">
                       <span className="truncate font-medium">{name}</span>
-                      <span className="shrink-0 text-xs text-[var(--muted-foreground)]">
+                      <span className="shrink-0 text-xs text-muted-foreground">
                         {formatRelativeTime(conv.lastMessageTime)}
                       </span>
                     </div>
-                    <p className="mt-0.5 truncate text-sm text-[var(--muted-foreground)]">
+                    <p className="mt-0.5 truncate text-sm text-muted-foreground">
                       {conv.lastMessage}
                     </p>
                     {conv.orderTitle ? (
-                      <p className="mt-1 truncate text-xs text-[var(--muted-foreground)]">
+                      <p className="mt-1 truncate text-xs text-muted-foreground">
                         Pedido: {conv.orderTitle}
                       </p>
                     ) : null}
                     {conv.unreadCount > 0 ? (
-                      <span className="mt-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--primary)] px-1.5 text-[10px] font-medium text-[var(--primary-foreground)]">
+                      <span className="mt-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-[10px] font-medium text-primary-foreground">
                         {conv.unreadCount > 99 ? '99+' : conv.unreadCount}
                       </span>
                     ) : null}
@@ -133,14 +133,14 @@ const MessagesPage = () => {
         )}
       >
         {!selectedConversation || !otherParticipant ? (
-          <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 text-center text-[var(--muted-foreground)]">
+          <div className="flex flex-1 flex-col items-center justify-center gap-3 px-6 text-center text-muted-foreground">
             <MessageSquare className="h-12 w-12 opacity-40" aria-hidden />
-            <p className="text-sm font-medium text-[var(--foreground)]">Selecciona una conversación</p>
+            <p className="text-sm font-medium text-foreground">Selecciona una conversación</p>
           </div>
         ) : (
           <>
             <Card className="flex flex-1 flex-col rounded-none border-0 shadow-none">
-              <CardHeader className="flex flex-row items-center gap-3 space-y-0 border-b border-[var(--border)] py-3">
+              <CardHeader className="flex flex-row items-center gap-3 space-y-0 border-b border-border py-3">
                 <Button
                   type="button"
                   variant="ghost"
@@ -154,7 +154,7 @@ const MessagesPage = () => {
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-semibold">{otherParticipant.name}</p>
                   {selectedConversation.orderTitle ? (
-                    <p className="truncate text-sm text-[var(--muted-foreground)]">
+                    <p className="truncate text-sm text-muted-foreground">
                       {selectedConversation.orderTitle}
                     </p>
                   ) : null}
@@ -175,7 +175,7 @@ const MessagesPage = () => {
                           'max-w-[85%] rounded-lg px-3 py-2 text-sm shadow-sm',
                           isOwn
                             ? 'bg-blue-600 text-white dark:bg-blue-700'
-                            : 'bg-[var(--muted)] text-[var(--foreground)]'
+                            : 'bg-muted text-foreground'
                         )}
                       >
                         <p className="text-xs font-medium opacity-90">{msg.senderName}</p>
@@ -183,7 +183,7 @@ const MessagesPage = () => {
                         <p
                           className={cn(
                             'mt-1 text-[10px]',
-                            isOwn ? 'text-blue-100' : 'text-[var(--muted-foreground)]'
+                            isOwn ? 'text-blue-100' : 'text-muted-foreground'
                           )}
                         >
                           {formatMessageTime(msg.timestamp)}
@@ -194,7 +194,7 @@ const MessagesPage = () => {
                 })}
               </div>
 
-              <div className="flex gap-2 border-t border-[var(--border)] p-3">
+              <div className="flex gap-2 border-t border-border p-3">
                 <Input
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}

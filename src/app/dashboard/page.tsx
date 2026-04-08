@@ -35,7 +35,7 @@ const DashboardPage = () => {
       <div className="space-y-10">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Panel del fabricante</h1>
-          <p className="mt-1 text-[var(--muted-foreground)]">{currentUser.companyName}</p>
+          <p className="mt-1 text-muted-foreground">{currentUser.companyName}</p>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -78,7 +78,7 @@ const DashboardPage = () => {
     <div className="space-y-10">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Panel del taller</h1>
-        <p className="mt-1 text-[var(--muted-foreground)]">{currentUser.companyName}</p>
+        <p className="mt-1 text-muted-foreground">{currentUser.companyName}</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -93,7 +93,7 @@ const DashboardPage = () => {
           Órdenes disponibles
         </h2>
         {pendingOrders.length === 0 ? (
-          <p className="text-sm text-[var(--muted-foreground)]">No hay órdenes pendientes en este momento.</p>
+          <p className="text-sm text-muted-foreground">No hay órdenes pendientes en este momento.</p>
         ) : (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {pendingOrders.map((order) => (

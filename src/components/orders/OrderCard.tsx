@@ -22,7 +22,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
   const statusCfg = ORDER_STATUS_CONFIG[order.status];
 
   return (
-    <Link href={`/orders/${order.id}`} className="block outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 rounded-lg">
+    <Link href={`/orders/${order.id}`} className="block outline-none transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-lg">
       <Card className="h-full cursor-pointer">
         <CardHeader className="space-y-3 pb-2">
           <div className="flex flex-wrap items-start justify-between gap-2">
@@ -32,35 +32,35 @@ export const OrderCard = ({ order }: OrderCardProps) => {
             </Badge>
           </div>
           {order.workshopName ? (
-            <p className="text-sm text-[var(--muted-foreground)]">Taller: {order.workshopName}</p>
+            <p className="text-sm text-muted-foreground">Taller: {order.workshopName}</p>
           ) : null}
         </CardHeader>
-        <CardContent className="space-y-2 text-sm text-[var(--muted-foreground)]">
+        <CardContent className="space-y-2 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
-            <Scissors className="size-4 shrink-0 text-[var(--foreground)]" aria-hidden />
+            <Scissors className="size-4 shrink-0 text-foreground" aria-hidden />
             <span>
-              <span className="font-medium text-[var(--foreground)]">Prenda:</span> {order.garmentType}
+              <span className="font-medium text-foreground">Prenda:</span> {order.garmentType}
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <Package className="size-4 shrink-0 text-[var(--foreground)]" aria-hidden />
+            <Package className="size-4 shrink-0 text-foreground" aria-hidden />
             <span>
-              <span className="font-medium text-[var(--foreground)]">Cantidad:</span> {order.quantity}
+              <span className="font-medium text-foreground">Cantidad:</span> {order.quantity}
             </span>
           </div>
           <p>
-            <span className="font-medium text-[var(--foreground)]">Material:</span> {order.material}
+            <span className="font-medium text-foreground">Material:</span> {order.material}
           </p>
           <div className="flex items-center gap-2">
-            <DollarSign className="size-4 shrink-0 text-[var(--foreground)]" aria-hidden />
+            <DollarSign className="size-4 shrink-0 text-foreground" aria-hidden />
             <span>
-              <span className="font-medium text-[var(--foreground)]">Presupuesto:</span> {formatArs(order.budget)}
+              <span className="font-medium text-foreground">Presupuesto:</span> {formatArs(order.budget)}
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <Calendar className="size-4 shrink-0 text-[var(--foreground)]" aria-hidden />
+            <Calendar className="size-4 shrink-0 text-foreground" aria-hidden />
             <span>
-              <span className="font-medium text-[var(--foreground)]">Entrega:</span> {formatDeadline(order.deadline)}
+              <span className="font-medium text-foreground">Entrega:</span> {formatDeadline(order.deadline)}
             </span>
           </div>
         </CardContent>

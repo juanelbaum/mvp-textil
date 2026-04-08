@@ -43,7 +43,7 @@ const NewOrderPage = () => {
         <Link href="/orders" aria-label="Volver a órdenes" className={buttonVariants({ variant: 'outline', size: 'icon' })}>
           <ArrowLeft className="size-4" />
         </Link>
-        <h1 className="text-2xl font-semibold tracking-tight text-[var(--foreground)]">
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
           Nueva Orden de Producción
         </h1>
       </div>
@@ -171,7 +171,7 @@ const NewOrderPage = () => {
               />
             </div>
           </CardContent>
-          <CardFooter className="flex flex-wrap gap-2 border-t border-[var(--border)] pt-6">
+          <CardFooter className="flex flex-wrap gap-2 border-t border-border pt-6">
             <Button type="submit">Crear orden</Button>
             <Link href="/orders" className={buttonVariants({ variant: 'outline' })}>
               Cancelar

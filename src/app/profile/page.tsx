@@ -75,14 +75,14 @@ const ProfilePage = () => {
           <div
             className={cn(
               'mt-0.5 flex h-10 w-10 items-center justify-center rounded-lg',
-              'bg-[var(--primary)]/10 text-[var(--primary)]'
+              'bg-primary/10 text-primary'
             )}
           >
             <User className="h-5 w-5" aria-hidden />
           </div>
           <div>
             <h1 className="text-2xl font-semibold tracking-tight">Mi Perfil</h1>
-            <p className="text-sm text-[var(--muted-foreground)]">
+            <p className="text-sm text-muted-foreground">
               {role === 'manufacturer' ? 'Fabricante' : 'Taller'} — datos de demostración
             </p>
           </div>

@@ -20,7 +20,7 @@ export const OrderTimeline = ({ events }: OrderTimelineProps) => {
   );
 
   if (sorted.length === 0) {
-    return <p className="text-sm text-[var(--muted-foreground)]">Sin eventos en el historial.</p>;
+    return <p className="text-sm text-muted-foreground">Sin eventos en el historial.</p>;
   }
 
   return (
@@ -34,13 +34,13 @@ export const OrderTimeline = ({ events }: OrderTimelineProps) => {
           <li key={event.id} className="relative flex gap-3 pb-8 last:pb-0">
             {index < sorted.length - 1 ? (
               <span
-                className="absolute left-[11px] top-6 h-[calc(100%-0.5rem)] w-px bg-[var(--border)]"
+                className="absolute left-[11px] top-6 h-[calc(100%-0.5rem)] w-px bg-border"
                 aria-hidden
               />
             ) : null}
             <div className="relative z-10 flex shrink-0 flex-col items-center">
               <Icon
-                className={cn('size-6 shrink-0', isCompleted ? 'text-green-600' : 'text-[var(--muted-foreground)]')}
+                className={cn('size-6 shrink-0', isCompleted ? 'text-green-600' : 'text-muted-foreground')}
                 aria-hidden
               />
             </div>
@@ -54,8 +54,8 @@ export const OrderTimeline = ({ events }: OrderTimelineProps) => {
               >
                 {cfg.label}
               </div>
-              <p className="text-sm text-[var(--foreground)]">{event.description}</p>
-              <time className="text-xs text-[var(--muted-foreground)]" dateTime={event.timestamp}>
+              <p className="text-sm text-foreground">{event.description}</p>
+              <time className="text-xs text-muted-foreground" dateTime={event.timestamp}>
                 {formatTs(event.timestamp)}
               </time>
             </div>

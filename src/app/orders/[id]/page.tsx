@@ -50,8 +50,8 @@ const OrderDetailPage = () => {
   if (!order) {
     return (
       <div className="mx-auto max-w-lg space-y-6 text-center">
-        <h1 className="text-xl font-semibold text-[var(--foreground)]">Orden no encontrada</h1>
-        <p className="text-sm text-[var(--muted-foreground)]">
+        <h1 className="text-xl font-semibold text-foreground">Orden no encontrada</h1>
+        <p className="text-sm text-muted-foreground">
           No existe una orden con el identificador solicitado.
         </p>
         <Link href="/orders" className={cn(buttonVariants(), 'gap-2')}>
@@ -73,8 +73,8 @@ const OrderDetailPage = () => {
           </Link>
           <div className="min-w-0 space-y-2">
             <div className="flex flex-wrap items-center gap-2">
-              <Package className="size-6 shrink-0 text-[var(--muted-foreground)]" aria-hidden />
-              <h1 className="text-2xl font-semibold tracking-tight text-[var(--foreground)]">
+              <Package className="size-6 shrink-0 text-muted-foreground" aria-hidden />
+              <h1 className="text-2xl font-semibold tracking-tight text-foreground">
                 {order.title}
               </h1>
             </div>
@@ -99,10 +99,10 @@ const OrderDetailPage = () => {
           <CardDescription>Detalle de la solicitud de producción</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <p className="text-sm leading-relaxed text-[var(--foreground)]">{order.description}</p>
+          <p className="text-sm leading-relaxed text-foreground">{order.description}</p>
           <div>
-            <p className="mb-2 text-sm font-medium text-[var(--foreground)]">Especificaciones</p>
-            <ul className="list-inside list-disc space-y-1 text-sm text-[var(--muted-foreground)]">
+            <p className="mb-2 text-sm font-medium text-foreground">Especificaciones</p>
+            <ul className="list-inside list-disc space-y-1 text-sm text-muted-foreground">
               {order.specifications.map((s) => (
                 <li key={s}>{s}</li>
               ))}
@@ -117,84 +117,84 @@ const OrderDetailPage = () => {
         </CardHeader>
         <CardContent className="grid gap-4 sm:grid-cols-2">
           <div className="flex gap-3">
-            <Factory className="mt-0.5 size-5 shrink-0 text-[var(--muted-foreground)]" aria-hidden />
+            <Factory className="mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden />
             <div>
-              <p className="text-xs font-medium uppercase tracking-wide text-[var(--muted-foreground)]">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                 Fabricante
               </p>
-              <p className="text-sm text-[var(--foreground)]">{order.manufacturerName}</p>
+              <p className="text-sm text-foreground">{order.manufacturerName}</p>
             </div>
           </div>
           {order.workshopId ? (
             <div className="flex gap-3">
-              <User className="mt-0.5 size-5 shrink-0 text-[var(--muted-foreground)]" aria-hidden />
+              <User className="mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden />
               <div>
-                <p className="text-xs font-medium uppercase tracking-wide text-[var(--muted-foreground)]">
+                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                   Taller
                 </p>
-                <p className="text-sm text-[var(--foreground)]">{order.workshopName ?? '—'}</p>
+                <p className="text-sm text-foreground">{order.workshopName ?? '—'}</p>
               </div>
             </div>
           ) : null}
           <div className="flex gap-3">
-            <Scissors className="mt-0.5 size-5 shrink-0 text-[var(--muted-foreground)]" aria-hidden />
+            <Scissors className="mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden />
             <div>
-              <p className="text-xs font-medium uppercase tracking-wide text-[var(--muted-foreground)]">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                 Tipo de prenda
               </p>
-              <p className="text-sm text-[var(--foreground)]">{order.garmentType}</p>
+              <p className="text-sm text-foreground">{order.garmentType}</p>
             </div>
           </div>
           <div className="flex gap-3">
-            <Package className="mt-0.5 size-5 shrink-0 text-[var(--muted-foreground)]" aria-hidden />
+            <Package className="mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden />
             <div>
-              <p className="text-xs font-medium uppercase tracking-wide text-[var(--muted-foreground)]">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                 Cantidad
               </p>
-              <p className="text-sm text-[var(--foreground)]">{order.quantity}</p>
+              <p className="text-sm text-foreground">{order.quantity}</p>
             </div>
           </div>
           <div className="flex gap-3">
             <span className="mt-0.5 size-5 shrink-0" aria-hidden />
             <div>
-              <p className="text-xs font-medium uppercase tracking-wide text-[var(--muted-foreground)]">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                 Material
               </p>
-              <p className="text-sm text-[var(--foreground)]">{order.material}</p>
+              <p className="text-sm text-foreground">{order.material}</p>
             </div>
           </div>
           <div className="flex gap-3">
-            <DollarSign className="mt-0.5 size-5 shrink-0 text-[var(--muted-foreground)]" aria-hidden />
+            <DollarSign className="mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden />
             <div>
-              <p className="text-xs font-medium uppercase tracking-wide text-[var(--muted-foreground)]">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                 Presupuesto
               </p>
-              <p className="text-sm text-[var(--foreground)]">{formatArs(order.budget)}</p>
+              <p className="text-sm text-foreground">{formatArs(order.budget)}</p>
             </div>
           </div>
           <div className="flex gap-3">
-            <Calendar className="mt-0.5 size-5 shrink-0 text-[var(--muted-foreground)]" aria-hidden />
+            <Calendar className="mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden />
             <div>
-              <p className="text-xs font-medium uppercase tracking-wide text-[var(--muted-foreground)]">
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                 Fecha límite
               </p>
-              <p className="text-sm text-[var(--foreground)]">{formatDate(order.deadline)}</p>
+              <p className="text-sm text-foreground">{formatDate(order.deadline)}</p>
             </div>
           </div>
           <div className="flex gap-3 sm:col-span-2">
-            <Calendar className="mt-0.5 size-5 shrink-0 text-[var(--muted-foreground)]" aria-hidden />
+            <Calendar className="mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden />
             <div className="flex flex-wrap gap-x-6 gap-y-1">
               <div>
-                <p className="text-xs font-medium uppercase tracking-wide text-[var(--muted-foreground)]">
+                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                   Creada
                 </p>
-                <p className="text-sm text-[var(--foreground)]">{formatDate(order.createdAt)}</p>
+                <p className="text-sm text-foreground">{formatDate(order.createdAt)}</p>
               </div>
               <div>
-                <p className="text-xs font-medium uppercase tracking-wide text-[var(--muted-foreground)]">
+                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                   Actualizada
                 </p>
-                <p className="text-sm text-[var(--foreground)]">{formatDate(order.updatedAt)}</p>
+                <p className="text-sm text-foreground">{formatDate(order.updatedAt)}</p>
               </div>
             </div>
           </div>

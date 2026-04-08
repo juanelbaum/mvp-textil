@@ -55,14 +55,14 @@ const WorkshopsPage = () => {
           <div
             className={cn(
               'flex h-12 w-12 items-center justify-center rounded-lg',
-              'bg-[var(--primary)]/10 text-[var(--primary)]'
+              'bg-primary/10 text-primary'
             )}
           >
             <Factory className="h-6 w-6" aria-hidden />
           </div>
           <div>
             <h1 className="text-2xl font-semibold tracking-tight">Explorar Talleres</h1>
-            <p className="text-sm text-[var(--muted-foreground)]">
+            <p className="text-sm text-muted-foreground">
               Encontrá talleres que se ajusten a tu producción
             </p>
           </div>
@@ -75,15 +75,15 @@ const WorkshopsPage = () => {
         <div
           className={cn(
             'flex flex-col items-center justify-center gap-4 rounded-lg border border-dashed',
-            'border-[var(--border)] bg-[var(--card)] px-6 py-16 text-center'
+            'border-border bg-card px-6 py-16 text-center'
           )}
         >
-          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[var(--muted)]/30">
-            <Search className="h-7 w-7 text-[var(--muted-foreground)]" aria-hidden />
+          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-muted/30">
+            <Search className="h-7 w-7 text-muted-foreground" aria-hidden />
           </div>
           <div className="max-w-sm space-y-1">
             <p className="font-medium">No hay talleres con estos criterios</p>
-            <p className="text-sm text-[var(--muted-foreground)]">
+            <p className="text-sm text-muted-foreground">
               Probá ampliar la búsqueda o quitar algunos filtros.
             </p>
           </div>

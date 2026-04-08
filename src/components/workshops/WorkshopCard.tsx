@@ -20,7 +20,7 @@ export const WorkshopCard = ({ workshop }: WorkshopCardProps) => {
   return (
     <Link
       href={`/workshops/${workshop.id}`}
-      className="block h-full transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 rounded-lg"
+      className="block h-full transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-lg"
     >
       <Card className="flex h-full flex-col">
         <CardHeader>
@@ -38,13 +38,13 @@ export const WorkshopCard = ({ workshop }: WorkshopCardProps) => {
                     'h-4 w-4',
                     i < fullStars
                       ? 'fill-amber-400 text-amber-400'
-                      : 'fill-none text-[var(--muted-foreground)]'
+                      : 'fill-none text-muted-foreground'
                   )}
                   aria-hidden
                 />
               ))}
             </div>
-            <span className="text-sm text-[var(--muted-foreground)]">
+            <span className="text-sm text-muted-foreground">
               {workshop.rating.toFixed(1)} ({workshop.reviewsCount} reseñas)
             </span>
           </div>
@@ -60,16 +60,16 @@ export const WorkshopCard = ({ workshop }: WorkshopCardProps) => {
               <Badge variant="outline">+{extraServices}</Badge>
             ) : null}
           </div>
-          <p className="text-sm text-[var(--muted-foreground)]">
-            <span className="font-medium text-[var(--foreground)]">Capacidad:</span> {capacityLabel}
+          <p className="text-sm text-muted-foreground">
+            <span className="font-medium text-foreground">Capacidad:</span> {capacityLabel}
           </p>
-          <ul className="space-y-1.5 text-sm text-[var(--muted-foreground)]">
+          <ul className="space-y-1.5 text-sm text-muted-foreground">
             <li className="flex items-center gap-2">
               <Package className="h-4 w-4 shrink-0" aria-hidden />
               <span>{workshop.completedOrders} pedidos completados</span>
             </li>
             <li className="flex items-center gap-2">
-              <span className="font-medium text-[var(--foreground)]">Mín. pedido:</span>{' '}
+              <span className="font-medium text-foreground">Mín. pedido:</span>{' '}
               {workshop.minOrderQuantity} uds.
             </li>
             <li className="flex items-center gap-2">
@@ -78,7 +78,7 @@ export const WorkshopCard = ({ workshop }: WorkshopCardProps) => {
             </li>
           </ul>
         </CardContent>
-        <CardFooter className="text-xs text-[var(--muted-foreground)]">Ver taller</CardFooter>
+        <CardFooter className="text-xs text-muted-foreground">Ver taller</CardFooter>
       </Card>
     </Link>
   );

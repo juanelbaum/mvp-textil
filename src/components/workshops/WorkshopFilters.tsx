@@ -29,7 +29,7 @@ export const WorkshopFilters = ({ filters, onFiltersChange }: WorkshopFiltersPro
   return (
     <div
       className={cn(
-        'flex flex-col gap-4 rounded-lg border border-[var(--border)] bg-[var(--card)] p-4',
+        'flex flex-col gap-4 rounded-lg border border-border bg-card p-4',
         'md:flex-row md:flex-wrap md:items-end'
       )}
     >
@@ -39,7 +39,7 @@ export const WorkshopFilters = ({ filters, onFiltersChange }: WorkshopFiltersPro
         </label>
         <div className="relative">
           <Search
-            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--muted-foreground)]"
+            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
             aria-hidden
           />
           <Input
@@ -76,13 +76,13 @@ export const WorkshopFilters = ({ filters, onFiltersChange }: WorkshopFiltersPro
           {TOP_SERVICES.map((service) => (
             <label
               key={service}
-              className="flex cursor-pointer items-center gap-2 text-sm text-[var(--foreground)]"
+              className="flex cursor-pointer items-center gap-2 text-sm text-foreground"
             >
               <input
                 type="checkbox"
                 checked={filters.services.includes(service)}
                 onChange={() => toggleService(service)}
-                className="h-4 w-4 rounded border border-[var(--input)] bg-[var(--background)] text-[var(--primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
+                className="h-4 w-4 rounded border border-input bg-background text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               />
               {service}
             </label>

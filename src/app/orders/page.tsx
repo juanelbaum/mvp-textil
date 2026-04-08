@@ -39,7 +39,7 @@ const OrdersPage = () => {
   return (
     <div className="space-y-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-2xl font-semibold tracking-tight text-[var(--foreground)]">
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
           Órdenes
         </h1>
         {role === 'manufacturer' ? (
@@ -50,10 +50,10 @@ const OrdersPage = () => {
         ) : null}
       </div>
 
-      <div className="flex flex-col gap-4 rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 sm:flex-row sm:items-end">
+      <div className="flex flex-col gap-4 rounded-lg border border-border bg-card p-4 sm:flex-row sm:items-end">
         <div className="flex flex-1 flex-col gap-2">
           <label htmlFor="order-status-filter" className="flex items-center gap-2 text-sm font-medium">
-            <Filter className="size-4 text-[var(--muted-foreground)]" aria-hidden />
+            <Filter className="size-4 text-muted-foreground" aria-hidden />
             Estado
           </label>
           <Select
@@ -70,7 +70,7 @@ const OrdersPage = () => {
         </div>
         <div className="flex flex-1 flex-col gap-2">
           <label htmlFor="order-search" className="flex items-center gap-2 text-sm font-medium">
-            <Search className="size-4 text-[var(--muted-foreground)]" aria-hidden />
+            <Search className="size-4 text-muted-foreground" aria-hidden />
             Buscar
           </label>
           <Input
@@ -84,7 +84,7 @@ const OrdersPage = () => {
       </div>
 
       {filteredOrders.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-[var(--border)] bg-[var(--muted)]/30 px-6 py-12 text-center text-sm text-[var(--muted-foreground)]">
+        <p className="rounded-lg border border-dashed border-border bg-muted/30 px-6 py-12 text-center text-sm text-muted-foreground">
           No hay órdenes que coincidan con los filtros.
         </p>
       ) : (

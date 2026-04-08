@@ -23,7 +23,7 @@ const Avatar = ({ fallback, size = 'md', className, ...props }: AvatarProps) => 
   return (
     <div
       className={cn(
-        'inline-flex items-center justify-center rounded-full bg-[var(--primary)] text-[var(--primary-foreground)] font-medium',
+        'inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground font-medium',
         AVATAR_SIZES[size],
         className
       )}

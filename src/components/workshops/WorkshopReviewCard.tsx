@@ -31,25 +31,25 @@ export const WorkshopReviewCard = ({ review }: WorkshopReviewCardProps) => {
                   'h-4 w-4',
                   i < fullStars
                     ? 'fill-amber-400 text-amber-400'
-                    : 'fill-none text-[var(--muted-foreground)]'
+                    : 'fill-none text-muted-foreground'
                 )}
                 aria-hidden
               />
             ))}
-            <span className="ml-2 text-sm text-[var(--muted-foreground)]">
+            <span className="ml-2 text-sm text-muted-foreground">
               {review.rating.toFixed(1)}
             </span>
           </div>
         </div>
         <time
           dateTime={review.createdAt}
-          className="shrink-0 text-xs text-[var(--muted-foreground)]"
+          className="shrink-0 text-xs text-muted-foreground"
         >
           {formatReviewDate(review.createdAt)}
         </time>
       </CardHeader>
       <CardContent>
-        <p className="whitespace-pre-wrap text-sm text-[var(--foreground)]">{review.comment}</p>
+        <p className="whitespace-pre-wrap text-sm text-foreground">{review.comment}</p>
       </CardContent>
     </Card>
   );

@@ -36,13 +36,13 @@ export const Navbar = () => {
   const filteredItems = NAV_ITEMS.filter((item) => item.roles.includes(role));
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-[var(--border)] bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+    <nav className="sticky top-0 z-50 border-b border-border bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-8">
             <Link href="/" className="flex items-center gap-2">
-              <Factory className="h-7 w-7 text-[var(--primary)]" />
-              <span className="text-xl font-bold text-[var(--foreground)]">TextilConnect</span>
+              <Factory className="h-7 w-7 text-primary" />
+              <span className="text-xl font-bold text-foreground">TextilConnect</span>
             </Link>
 
             <div className="hidden md:flex items-center gap-1">
@@ -56,8 +56,8 @@ export const Navbar = () => {
                     className={cn(
                       'flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors',
                       isActive
-                        ? 'bg-[var(--primary)]/10 text-[var(--primary)]'
-                        : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--accent)]'
+                        ? 'bg-primary/10 text-primary'
+                        : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                     )}
                   >
                     {Icon && <Icon className="h-4 w-4" />}
@@ -98,7 +98,7 @@ export const Navbar = () => {
       </div>
 
       {mobileOpen && (
-        <div className="md:hidden border-t border-[var(--border)] bg-white">
+        <div className="md:hidden border-t border-border bg-white">
           <div className="px-4 py-3 space-y-1">
             {filteredItems.map((item) => {
               const Icon = ICON_MAP[item.icon];
@@ -111,8 +111,8 @@ export const Navbar = () => {
                   className={cn(
                     'flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors',
                     isActive
-                      ? 'bg-[var(--primary)]/10 text-[var(--primary)]'
-                      : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+                      ? 'bg-primary/10 text-primary'
+                      : 'text-muted-foreground hover:text-foreground'
                   )}
                 >
                   {Icon && <Icon className="h-4 w-4" />}
@@ -120,7 +120,7 @@ export const Navbar = () => {
                 </Link>
               );
             })}
-            <div className="pt-2 border-t border-[var(--border)]">
+            <div className="pt-2 border-t border-border">
               <Button variant="outline" size="sm" onClick={toggleRole} className="w-full text-xs">
                 Cambiar a: {role === 'manufacturer' ? 'Taller' : 'Fabricante'}
               </Button>
