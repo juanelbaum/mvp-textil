@@ -1,5 +1,3 @@
-'use client';
-
 import {
   CheckCircle,
   ClipboardList,
@@ -10,21 +8,32 @@ import {
 } from 'lucide-react';
 import { OrderCard } from '@/components/orders/OrderCard';
 import { StatsCard } from '@/components/dashboard/StatsCard';
-import { MOCK_ORDERS } from '@/lib/mocks/orders';
-import { MOCK_WORKSHOPS } from '@/lib/mocks/users';
-import { useRole } from '@/providers/RoleProvider';
+import { getServerCurrentUser } from '@/lib/currentUser';
+import {
+  getManufacturerProfile,
+  getWorkshopProfile,
+} from '@/services/userService';
+import {
+  listOrdersForUser,
+  listPendingOrders,
+} from '@/services/orderService';
+import type { Order } from '@/types/order';
 
 const formatArs = (value: number) =>
   new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(value);
 
-const sortByCreatedDesc = <T extends { createdAt: string }>(items: T[]) =>
+const sortByCreatedDesc = (items: Order[]) =>
   [...items].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 
-const DashboardPage = () => {
-  const { role, currentUser } = useRole();
+const DashboardPage = async () => {
+  const { role, userId } = await getServerCurrentUser();
 
   if (role === 'manufacturer') {
-    const myOrders = MOCK_ORDERS.filter((o) => o.manufacturerId === currentUser.id);
+    const [profile, myOrders] = await Promise.all([
+      getManufacturerProfile(userId),
+      listOrdersForUser(userId, 'manufacturer'),
+    ]);
+
     const total = myOrders.length;
     const inProduction = myOrders.filter((o) => o.status === 'in_production').length;
     const completed = myOrders.filter((o) => o.status === 'completed').length;
@@ -35,7 +44,7 @@ const DashboardPage = () => {
       <div className="space-y-10">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Panel del fabricante</h1>
-          <p className="mt-1 text-muted-foreground">{currentUser.companyName}</p>
+          <p className="mt-1 text-muted-foreground">{profile?.companyName ?? ''}</p>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -54,21 +63,31 @@ const DashboardPage = () => {
           <h2 id="recent-orders-heading" className="text-xl font-semibold tracking-tight">
             Órdenes recientes
           </h2>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {recent.map((order) => (
-              <OrderCard key={order.id} order={order} />
-            ))}
-          </div>
+          {recent.length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              Aún no publicaste órdenes. Creá la primera desde la sección Órdenes.
+            </p>
+          ) : (
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {recent.map((order) => (
+                <OrderCard key={order.id} order={order} />
+              ))}
+            </div>
+          )}
         </section>
       </div>
     );
   }
 
-  const pendingOrders = MOCK_ORDERS.filter((o) => o.status === 'pending');
-  const workshopOrders = MOCK_ORDERS.filter((o) => o.workshopId === currentUser.id);
-  const inProduction = workshopOrders.filter((o) => o.status === 'in_production').length;
-  const completed = workshopOrders.filter((o) => o.status === 'completed').length;
-  const workshopProfile = MOCK_WORKSHOPS.find((w) => w.id === currentUser.id);
+  const [workshopProfile, pendingOrders, workshopOrders] = await Promise.all([
+    getWorkshopProfile(userId),
+    listPendingOrders(),
+    listOrdersForUser(userId, 'workshop'),
+  ]);
+
+  const myWorkshopOrders = workshopOrders.filter((o) => o.workshopId === userId);
+  const inProduction = myWorkshopOrders.filter((o) => o.status === 'in_production').length;
+  const completed = myWorkshopOrders.filter((o) => o.status === 'completed').length;
   const ratingValue = workshopProfile ? workshopProfile.rating.toFixed(1) : '—';
   const ratingDescription = workshopProfile
     ? `${workshopProfile.reviewsCount} reseñas en la plataforma`
@@ -78,14 +97,21 @@ const DashboardPage = () => {
     <div className="space-y-10">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Panel del taller</h1>
-        <p className="mt-1 text-muted-foreground">{currentUser.companyName}</p>
+        <p className="mt-1 text-muted-foreground">
+          {workshopProfile?.workshopName ?? ''}
+        </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatsCard title="Órdenes disponibles" value={pendingOrders.length} icon={Package} />
         <StatsCard title="En producción" value={inProduction} icon={Loader} />
         <StatsCard title="Completadas" value={completed} icon={CheckCircle} />
-        <StatsCard title="Rating" value={ratingValue} description={ratingDescription} icon={Star} />
+        <StatsCard
+          title="Rating"
+          value={ratingValue}
+          description={ratingDescription}
+          icon={Star}
+        />
       </div>
 
       <section aria-labelledby="available-orders-heading" className="space-y-4">
@@ -93,7 +119,9 @@ const DashboardPage = () => {
           Órdenes disponibles
         </h2>
         {pendingOrders.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No hay órdenes pendientes en este momento.</p>
+          <p className="text-sm text-muted-foreground">
+            No hay órdenes pendientes en este momento.
+          </p>
         ) : (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {pendingOrders.map((order) => (

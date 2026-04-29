@@ -15,6 +15,7 @@ import {
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useRole } from '@/providers/RoleProvider';
+import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { NAV_ITEMS } from '@/constants/navigation';
 import { Button } from '@/components/ui/button';
 import { Avatar } from '@/components/ui/avatar';
@@ -29,9 +30,16 @@ const ICON_MAP: Record<string, React.ElementType> = {
 };
 
 export const Navbar = () => {
-  const { role, toggleRole, currentUser } = useRole();
+  const { role, toggleRole } = useRole();
+  const { data: currentUser } = useCurrentUser();
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const displayName =
+    currentUser?.role === 'manufacturer'
+      ? currentUser.profile.companyName
+      : currentUser?.profile.workshopName ?? '';
+  const avatarFallback = currentUser?.profile.name ?? '';
 
   const filteredItems = NAV_ITEMS.filter((item) => item.roles.includes(role));
 
@@ -79,9 +87,9 @@ export const Navbar = () => {
             </Button>
 
             <div className="hidden sm:flex items-center gap-2">
-              <Avatar fallback={currentUser.name} size="sm" />
+              <Avatar fallback={avatarFallback} size="sm" />
               <div className="text-sm">
-                <p className="font-medium leading-none">{currentUser.companyName}</p>
+                <p className="font-medium leading-none">{displayName}</p>
               </div>
             </div>
 

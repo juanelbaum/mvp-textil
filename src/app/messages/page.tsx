@@ -40,7 +40,7 @@ const getOtherParticipant = (
   conversation.participants.find((p) => p.id !== currentUserId);
 
 const MessagesPage = () => {
-  const { currentUser } = useRole();
+  const { currentUserId } = useRole();
   const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);
   const [newMessage, setNewMessage] = useState('');
   const [mobileShowChat, setMobileShowChat] = useState(false);
@@ -59,7 +59,7 @@ const MessagesPage = () => {
   );
 
   const otherParticipant = selectedConversation
-    ? getOtherParticipant(selectedConversation, currentUser.id)
+    ? getOtherParticipant(selectedConversation, currentUserId)
     : undefined;
 
   const handleSelectConversation = (id: string) => {
@@ -84,7 +84,7 @@ const MessagesPage = () => {
         </div>
         <ul className="flex-1 overflow-y-auto">
           {MOCK_CONVERSATIONS.map((conv) => {
-            const other = getOtherParticipant(conv, currentUser.id);
+            const other = getOtherParticipant(conv, currentUserId);
             const name = other?.name ?? 'Usuario';
             const isSelected = conv.id === selectedConversationId;
             return (
@@ -164,7 +164,7 @@ const MessagesPage = () => {
               <CardContent className="flex flex-1 flex-col overflow-hidden p-0">
               <div className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
                 {threadMessages.map((msg) => {
-                  const isOwn = msg.senderId === currentUser.id;
+                  const isOwn = msg.senderId === currentUserId;
                   return (
                     <div
                       key={msg.id}

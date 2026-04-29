@@ -1,58 +1,43 @@
-'use client';
-
 import Link from 'next/link';
-import { useMemo } from 'react';
-import { useParams } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import {
   ArrowLeft,
   Clock,
   Mail,
   MapPin,
-  MessageSquare,
   Package,
   Phone,
   Star,
 } from 'lucide-react';
-import { MOCK_REVIEWS, MOCK_WORKSHOP_PROFILES } from '@/lib/mocks/workshops';
+import { getWorkshopById } from '@/services/workshopService';
+import { listReviewsByWorkshop } from '@/services/reviewService';
 import { WorkshopReviewCard } from '@/components/workshops/WorkshopReviewCard';
+import { WorkshopContactButton } from '@/components/workshops/WorkshopContactButton';
 import { Avatar } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { CAPACITY_OPTIONS } from '@/constants/workshop';
 import { cn } from '@/lib/utils';
 
-const WorkshopDetailPage = () => {
-  const params = useParams();
-  const id = typeof params.id === 'string' ? params.id : Array.isArray(params.id) ? params.id[0] : '';
+export const dynamic = 'force-dynamic';
 
-  const workshop = MOCK_WORKSHOP_PROFILES.find((w) => w.id === id);
+interface WorkshopDetailPageProps {
+  params: Promise<{ id: string }>;
+}
 
-  const reviews = useMemo(
-    () => MOCK_REVIEWS.filter((r) => r.workshopId === id),
-    [id]
-  );
+const WorkshopDetailPage = async ({ params }: WorkshopDetailPageProps) => {
+  const { id } = await params;
 
-  if (!workshop) {
-    return (
-      <div className="mx-auto max-w-md space-y-6 py-12 text-center">
-        <h1 className="text-xl font-semibold">Taller no encontrado</h1>
-        <p className="text-sm text-muted-foreground">
-          El taller que buscás no existe o fue dado de baja.
-        </p>
-        <Link href="/workshops" className={cn(buttonVariants({ variant: 'outline' }))}>
-          Volver a talleres
-        </Link>
-      </div>
-    );
-  }
+  const [workshop, reviews] = await Promise.all([
+    getWorkshopById(id),
+    listReviewsByWorkshop(id),
+  ]);
+
+  if (!workshop) notFound();
 
   const fullStars = Math.min(5, Math.max(0, Math.round(workshop.rating)));
   const capacityLabel =
     CAPACITY_OPTIONS.find((c) => c.value === workshop.capacity)?.label ?? workshop.capacity;
-
-  const handleContact = () => {
-    window.alert('Contacto demo: en producción aquí iría mensajería o email.');
-  };
 
   return (
     <div className="space-y-8 pb-8">
@@ -61,7 +46,7 @@ const WorkshopDetailPage = () => {
           href="/workshops"
           className={cn(
             buttonVariants({ variant: 'ghost', size: 'sm' }),
-            '-ml-2 gap-1 text-muted-foreground'
+            '-ml-2 gap-1 text-muted-foreground',
           )}
         >
           <ArrowLeft className="h-4 w-4" aria-hidden />
@@ -73,7 +58,9 @@ const WorkshopDetailPage = () => {
         <Avatar fallback={workshop.workshopName} size="lg" className="shrink-0" />
         <div className="min-w-0 flex-1 space-y-3">
           <div>
-            <h1 className="text-2xl font-semibold tracking-tight">{workshop.workshopName}</h1>
+            <h1 className="text-2xl font-semibold tracking-tight">
+              {workshop.workshopName}
+            </h1>
             <p className="text-muted-foreground">{workshop.ownerName}</p>
           </div>
           <p className="flex items-start gap-2 text-sm text-muted-foreground">
@@ -81,7 +68,10 @@ const WorkshopDetailPage = () => {
             {workshop.location}
           </p>
           <div className="flex flex-wrap items-center gap-2">
-            <div className="flex items-center gap-0.5" aria-label={`Calificación ${workshop.rating} de 5`}>
+            <div
+              className="flex items-center gap-0.5"
+              aria-label={`Calificación ${workshop.rating} de 5`}
+            >
               {Array.from({ length: 5 }, (_, i) => (
                 <Star
                   key={i}
@@ -89,7 +79,7 @@ const WorkshopDetailPage = () => {
                     'h-5 w-5',
                     i < fullStars
                       ? 'fill-amber-400 text-amber-400'
-                      : 'fill-none text-muted-foreground'
+                      : 'fill-none text-muted-foreground',
                   )}
                   aria-hidden
                 />
@@ -99,10 +89,7 @@ const WorkshopDetailPage = () => {
               {workshop.rating.toFixed(1)} · {workshop.reviewsCount} reseñas
             </span>
           </div>
-          <Button className="gap-2" onClick={handleContact}>
-            <MessageSquare className="h-4 w-4" aria-hidden />
-            Contactar Taller
-          </Button>
+          <WorkshopContactButton />
         </div>
       </header>
 
@@ -154,13 +141,19 @@ const WorkshopDetailPage = () => {
           <ul className="space-y-2 text-sm">
             <li className="flex items-center gap-2">
               <Mail className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
-              <a href={`mailto:${workshop.email}`} className="text-primary underline-offset-4 hover:underline">
+              <a
+                href={`mailto:${workshop.email}`}
+                className="text-primary underline-offset-4 hover:underline"
+              >
                 {workshop.email}
               </a>
             </li>
             <li className="flex items-center gap-2">
               <Phone className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
-              <a href={`tel:${workshop.phone.replace(/\s/g, '')}`} className="hover:underline">
+              <a
+                href={`tel:${workshop.phone.replace(/\s/g, '')}`}
+                className="hover:underline"
+              >
                 {workshop.phone}
               </a>
             </li>
@@ -171,7 +164,9 @@ const WorkshopDetailPage = () => {
       <section className="space-y-4">
         <h2 className="text-lg font-semibold">Reseñas</h2>
         {reviews.length === 0 ? (
-          <p className="text-sm text-muted-foreground">Aún no hay reseñas para este taller.</p>
+          <p className="text-sm text-muted-foreground">
+            Aún no hay reseñas para este taller.
+          </p>
         ) : (
           <ul className="space-y-4">
             {reviews.map((review) => (

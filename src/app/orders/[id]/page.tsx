@@ -1,19 +1,15 @@
-'use client';
-
-import { useMemo } from 'react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import {
   ArrowLeft,
   Calendar,
-  CheckCircle,
   DollarSign,
   Factory,
   Package,
   Scissors,
   User,
 } from 'lucide-react';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import {
   Card,
@@ -24,51 +20,44 @@ import {
 } from '@/components/ui/card';
 import { OrderStatusBadge } from '@/components/orders/OrderStatusBadge';
 import { OrderTimeline } from '@/components/orders/OrderTimeline';
-import { MOCK_ORDERS, MOCK_TIMELINE_EVENTS } from '@/lib/mocks/orders';
-import { useRole } from '@/providers/RoleProvider';
+import { OrderStatusActions } from '@/components/orders/OrderStatusActions';
+import { getServerCurrentUser } from '@/lib/currentUser';
+import { getOrderWithTimeline } from '@/services/orderService';
+
+interface OrderDetailPageProps {
+  params: Promise<{ id: string }>;
+}
 
 const formatArs = (value: number) =>
   new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(value);
 
 const formatDate = (iso: string) => {
   const d = new Date(iso);
-  return Number.isNaN(d.getTime()) ? iso : d.toLocaleDateString('es-AR', { dateStyle: 'long' });
+  return Number.isNaN(d.getTime())
+    ? iso
+    : d.toLocaleDateString('es-AR', { dateStyle: 'long' });
 };
 
-const OrderDetailPage = () => {
-  const params = useParams();
-  const id = typeof params.id === 'string' ? params.id : '';
-  const { role } = useRole();
+const OrderDetailPage = async ({ params }: OrderDetailPageProps) => {
+  const { id } = await params;
+  const { role, userId } = await getServerCurrentUser();
 
-  const order = useMemo(() => MOCK_ORDERS.find((o) => o.id === id) ?? null, [id]);
-
-  const timelineEvents = useMemo(
-    () => MOCK_TIMELINE_EVENTS.filter((e) => e.orderId === id),
-    [id]
-  );
-
-  if (!order) {
-    return (
-      <div className="mx-auto max-w-lg space-y-6 text-center">
-        <h1 className="text-xl font-semibold text-foreground">Orden no encontrada</h1>
-        <p className="text-sm text-muted-foreground">
-          No existe una orden con el identificador solicitado.
-        </p>
-        <Link href="/orders" className={cn(buttonVariants(), 'gap-2')}>
-          <ArrowLeft className="size-4" aria-hidden />
-          Volver a órdenes
-        </Link>
-      </div>
-    );
-  }
-
-  const showAccept = role === 'workshop' && order.status === 'pending';
+  const result = await getOrderWithTimeline(id);
+  if (!result) notFound();
+  const { order, timeline } = result;
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex items-start gap-3">
-          <Link href="/orders" aria-label="Volver a órdenes" className={cn(buttonVariants({ variant: 'outline', size: 'icon' }), 'shrink-0')}>
+          <Link
+            href="/orders"
+            aria-label="Volver a órdenes"
+            className={cn(
+              buttonVariants({ variant: 'outline', size: 'icon' }),
+              'shrink-0',
+            )}
+          >
             <ArrowLeft className="size-4" />
           </Link>
           <div className="min-w-0 space-y-2">
@@ -81,16 +70,12 @@ const OrderDetailPage = () => {
             <OrderStatusBadge status={order.status} />
           </div>
         </div>
-        {showAccept ? (
-          <Button
-            type="button"
-            onClick={() => alert('Orden aceptada (demo)')}
-            className="shrink-0"
-          >
-            <CheckCircle className="mr-2 size-4" aria-hidden />
-            Aceptar Orden
-          </Button>
-        ) : null}
+
+        <OrderStatusActions
+          order={order}
+          viewerRole={role}
+          viewerId={userId}
+        />
       </div>
 
       <Card>
@@ -207,7 +192,7 @@ const OrderDetailPage = () => {
           <CardDescription>Eventos y cambios de estado</CardDescription>
         </CardHeader>
         <CardContent>
-          <OrderTimeline events={timelineEvents} />
+          <OrderTimeline events={timeline} />
         </CardContent>
       </Card>
     </div>
