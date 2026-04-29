@@ -1,18 +1,16 @@
 'use client';
 
-import { createContext, useContext, useState, useCallback } from 'react';
+import { createContext, useContext, useMemo, useState, useCallback, useEffect } from 'react';
 import type { ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
 import type { UserRole } from '@/types/user';
-import { CURRENT_MANUFACTURER, CURRENT_WORKSHOP } from '@/lib/mocks/users';
+import { SEED_MANUFACTURER_ID, SEED_WORKSHOP_ID } from '@/constants/seedUsers';
+import { ROLE_COOKIE_NAME } from '@/constants/roleCookie';
 
 interface RoleContextValue {
   role: UserRole;
   toggleRole: () => void;
-  currentUser: {
-    id: string;
-    name: string;
-    companyName: string;
-  };
+  currentUserId: string;
 }
 
 const RoleContext = createContext<RoleContextValue | null>(null);
@@ -21,30 +19,48 @@ interface RoleProviderProps {
   children: ReactNode;
 }
 
+const readRoleCookie = (): UserRole => {
+  if (typeof document === 'undefined') return 'manufacturer';
+  const match = document.cookie
+    .split('; ')
+    .find((c) => c.startsWith(`${ROLE_COOKIE_NAME}=`));
+  if (!match) return 'manufacturer';
+  const value = match.split('=')[1];
+  return value === 'workshop' ? 'workshop' : 'manufacturer';
+};
+
+const writeRoleCookie = (role: UserRole) => {
+  if (typeof document === 'undefined') return;
+  document.cookie = `${ROLE_COOKIE_NAME}=${role}; path=/; max-age=${60 * 60 * 24 * 30}; samesite=lax`;
+};
+
 export const RoleProvider = ({ children }: RoleProviderProps) => {
+  const router = useRouter();
   const [role, setRole] = useState<UserRole>('manufacturer');
 
-  const toggleRole = useCallback(() => {
-    setRole((prev) => (prev === 'manufacturer' ? 'workshop' : 'manufacturer'));
+  useEffect(() => {
+    setRole(readRoleCookie());
   }, []);
 
-  const currentUser = role === 'manufacturer'
-    ? {
-        id: CURRENT_MANUFACTURER.id,
-        name: CURRENT_MANUFACTURER.name,
-        companyName: CURRENT_MANUFACTURER.companyName,
-      }
-    : {
-        id: CURRENT_WORKSHOP.id,
-        name: CURRENT_WORKSHOP.name,
-        companyName: CURRENT_WORKSHOP.workshopName,
-      };
+  const toggleRole = useCallback(() => {
+    setRole((prev) => {
+      const next: UserRole = prev === 'manufacturer' ? 'workshop' : 'manufacturer';
+      writeRoleCookie(next);
+      router.refresh();
+      return next;
+    });
+  }, [router]);
 
-  return (
-    <RoleContext.Provider value={{ role, toggleRole, currentUser }}>
-      {children}
-    </RoleContext.Provider>
+  const value = useMemo<RoleContextValue>(
+    () => ({
+      role,
+      toggleRole,
+      currentUserId: role === 'manufacturer' ? SEED_MANUFACTURER_ID : SEED_WORKSHOP_ID,
+    }),
+    [role, toggleRole],
   );
+
+  return <RoleContext.Provider value={value}>{children}</RoleContext.Provider>;
 };
 
 export const useRole = () => {
