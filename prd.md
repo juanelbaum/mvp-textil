@@ -5,10 +5,39 @@ This PRD outlines the key features, user flows, and technical requirements for d
 ## Product Overview
 
 This platform connects clothing manufacturers with textile workshops to streamline production services. Manufacturers can post their production needs, while workshops can offer services tailored to those needs. The main problem we're addressing is the inefficiency of matching manufacturer requirements with workshop capabilities, leading to delays and miscommunication throughout the production lifecycle.
+
+## Hybrid Product Model
+
+**User research finding (April 2026):** Workshops are not tech-savvy and do not use web platforms or mobile apps — WhatsApp is their primary work tool. Based on this, the product adopts a hybrid model:
+
+- **Manufacturers** interact exclusively via the web platform.
+- **Workshops** interact exclusively via a WhatsApp AI agent (no web UI for workshops).
+
+### WhatsApp Agent Role
+
+The agent is a **matching broker, not a communication relay**. Once a manufacturer and workshop connect, they communicate directly via WhatsApp. The agent handles:
+
+1. **Onboarding:** Interviews the workshop via conversation to build their profile (machines, capabilities, specialties, production capacity). Shows a summary for confirmation before saving.
+2. **Matching notifications:** When a manufacturer posts an order, the system runs matching and the agent proactively notifies compatible workshops with order details.
+3. **Offer collection:** Workshop replies with interest + offer (price, timeline, conditions). Agent parses the response and writes the structured offer to the database.
+4. **Connection handoff:** Once the manufacturer accepts an offer, they receive the workshop's WhatsApp number to communicate directly.
+
+### End-to-End Flow
+
+```
+1. Manufacturer posts order (web)
+2. Matching runs → compatible workshops identified
+3. Agent sends WA message to each workshop with order details
+4. Workshop replies via WA: interested + offer
+5. Agent parses offer → saves to DB
+6. Manufacturer reviews offers on web → accepts one
+7. Manufacturer receives workshop's WA number → direct communication
+```
+
 ## Core User Flows
 
 1. **Manufacturers** login, create profiles with business information, and post orders that detail their production specifications. They can search for workshops based on location and capabilities, subsequently tracking the order status through a dashboard. Finally, after project completion, they provide ratings to ensure quality.  
-2. **Workshops** register their services, browse posted orders, and accept or decline based on their current capacities. They can communicate directly with manufacturers about orders, manage their profiles, and update services as necessary.
+2. **Workshops** onboard via WhatsApp conversation with the AI agent, receive matching proposals proactively, submit offers through chat, and manage active orders via WhatsApp. No web login required.
 ## Functional Requirements
 
 - **User Registration System**: Users, both manufacturers and workshops, can sign up securely with credentials.  
